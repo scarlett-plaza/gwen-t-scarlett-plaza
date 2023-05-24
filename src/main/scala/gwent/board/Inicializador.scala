@@ -1,9 +1,9 @@
 package cl.uchile.dcc
 package gwent.board
 
-import scala.util.Random
-import gwent.cards.{ADistanciaCard, AsedioCard, Card, CuerpoACuerpoCard, WeatherCard}
+import cl.uchile.dcc.gwent.cards.Card
 
+import scala.util.Random
 import scala.collection.mutable.ListBuffer
 
 class Inicializador {
@@ -15,6 +15,7 @@ class Inicializador {
   def createHand(deck: ListBuffer[Card], quantity: Int): ListBuffer[Card]={
     if(deck.length<quantity){
       println("No tienes suficientes cartas")
+      ListBuffer.empty[Card]
     }
     else {
       val handCard = deck.take(quantity)

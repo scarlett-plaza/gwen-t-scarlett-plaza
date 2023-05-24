@@ -4,7 +4,7 @@ package gwent.cards
 
 import java.util.Objects
 
-abstract class AbstractUnitCard(protected val name: String, protected val power: Int) extends Card with Equals {
+abstract class AbstractUnitCard(val name: String, protected val power: Int) extends Card with Equals {
 
   var currentPower = power
 

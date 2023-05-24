@@ -6,7 +6,7 @@ import gwent.cards.Card
 import java.util.Objects
 import scala.collection.mutable.ListBuffer
 
-class Player(val name: String, var _gem: Int, var _deck: ListBuffer[Card], var _hand: ListBuffer[Card],val boardSec: Int) {
+class Player(val name: String, var _gem: Int, var _deck: ListBuffer[Card], var _hand: ListBuffer[Card],val boardSec: Int) extends Equals {
   def deck: ListBuffer[Card] = _deck
   def hand: ListBuffer[Card] = _hand
   def gem: Int = _gem
