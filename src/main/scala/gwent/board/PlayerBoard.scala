@@ -1,15 +1,14 @@
 package cl.uchile.dcc
-package gwent.cards
+package gwent.board
 
-import gwent.player.Player
+import gwent.cards.{ADistanciaCard, AsedioCard, Card, CuerpoACuerpoCard, WeatherCard}
 
-import cl.uchile.dcc.gwent.board.Inicializador
-import jdk.javadoc.internal.doclets.toolkit.util.DocFile.list
-import munit.FunSuite
+import cl.uchile.dcc.gwent.player.Player
+
 import scala.collection.mutable.ListBuffer
-import munit.Clue.generate
 
-class CuerpoACuerpoCardTest extends FunSuite{
+class PlayerBoard(val player: Player) {
+
   val namesADistancia: List[String] = List("Elemento", "Chaucha", "Yo no fui", "Neumatex", "Maletin", "Jefe", "Yo soy", "Ro", "Duquesa")
   val cardsADistancia: List[ADistanciaCard] = List.tabulate(namesADistancia.length)(i => new ADistanciaCard(namesADistancia(i), 1))
   val namesAsedio: List[String] = List("Copi copi", "Mente en blanco", "Tepo tepo", "Palmerita", "Etcetera", "Rucia", "Guason", "Chu", "James Bond")
@@ -21,18 +20,10 @@ class CuerpoACuerpoCardTest extends FunSuite{
 
   val cardsCards: List[Card] = List.concat(cardsADistancia, cardsAsedio, cardsCuerpoACuerpo, cardsWeather)
 
-  val card1: CuerpoACuerpoCard = new CuerpoACuerpoCard(namesCuerpoACuerpo(0), 1)
-  val card2: CuerpoACuerpoCard = new CuerpoACuerpoCard(namesCuerpoACuerpo(0), 1)
-  val card3: CuerpoACuerpoCard = new CuerpoACuerpoCard(namesCuerpoACuerpo(1), 2)
-  test("Equal Cards"){
-    assert(card1.equals(card2))
-    assert(!card1.equals(card3))
-  }
-  test("A card is not a player") {
-    val inicializador = new Inicializador()
-    val deck: ListBuffer[Card] = inicializador.createDeck(cardsCards, 25)
-    val hand: ListBuffer[Card] = inicializador.createHand(deck, 10)
-    val player = new Player("Juan Carlos Bodoque", 2, deck, hand, 1)
-    assert(!card1.equals(player))
-  }
+  val asedio: AsedioSection = new AsedioSection(cardsAsedio(1), player)
+  val sectionAsedio: ListBuffer[AsedioCard] = asedio.sectionAsedio
+  val aDistancia: ADistanciaSection = new ADistanciaSection(cardsADistancia(1), player)
+  val sectionADistancia: ListBuffer[ADistanciaCard] = aDistancia.sectionADistancia
+  val cuerpoACuerpo: CuerpoACuerpoSection = new CuerpoACuerpoSection(cardsCuerpoACuerpo(1), player)
+  val sectionCuerpoACuerpo: ListBuffer[CuerpoACuerpoCard] = cuerpoACuerpo.sectionCuerpoACuerpo
 }

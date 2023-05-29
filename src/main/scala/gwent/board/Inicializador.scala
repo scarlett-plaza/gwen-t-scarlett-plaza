@@ -1,10 +1,10 @@
 package cl.uchile.dcc
 package gwent.board
 
-import cl.uchile.dcc.gwent.cards.Card
+import gwent.cards.Card
 
-import scala.util.Random
 import scala.collection.mutable.ListBuffer
+import scala.util.Random
 
 class Inicializador {
   def createDeck(availableCards: List[Card], quantity: Int): ListBuffer[Card]={

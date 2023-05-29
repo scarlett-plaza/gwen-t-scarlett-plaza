@@ -3,24 +3,38 @@ package gwent.cards
 
 import gwent.player.Player
 
-val namesADistancia: List[ADistanciaCard] = list("Elemento", "Chaucha", "Yo no fui", "Neumatex", "Maletin", "Jefe", "Yo soy", "Ro", "Duquesa")
-val namesAsedio: List[AsedioCard] = list("Copi copi", "Mente en blanco", "Tepo tepo", "Palmerita", "Etcetera", "Rucia", "Guason", "Chu", "James Bond")
-val namesCuerpoACuerpo: List[CuerpoACuerpoCard] = list("Adjetivo", "Coliforme", "Fierro malo", "Cortachurro", "Choapino", "Rata", "Cucky", "Neumatico", "Chamullo")
-val namesWeather: List[WeatherCard] = list("Pescado", "Moneda", "Lili", "Calugoso", "Pelusa", "Amigo", "Calendario")
+import cl.uchile.dcc.gwent.board.Inicializador
+import cl.uchile.dcc.gwent.cards
+import jdk.javadoc.internal.doclets.toolkit.util.DocFile.list
+import munit.FunSuite
 
-val namesCards: List[Card] = List.concat(namesADistancia, namesAsedio, namesCuerpoACuerpo, namesWeather)
+import scala.collection.mutable.ListBuffer
+import munit.Clue.generate
 
 class asedioCardTest extends FunSuite{
+  val namesADistancia: List[String] = List("Elemento", "Chaucha", "Yo no fui", "Neumatex", "Maletin", "Jefe", "Yo soy", "Ro", "Duquesa")
+  val cardsADistancia: List[ADistanciaCard] = List.tabulate(namesADistancia.length)(i => new ADistanciaCard(namesADistancia(i), 1))
+  val namesAsedio: List[String] = List("Copi copi", "Mente en blanco", "Tepo tepo", "Palmerita", "Etcetera", "Rucia", "Guason", "Chu", "James Bond")
+  val cardsAsedio: List[AsedioCard] = List.tabulate(namesAsedio.length)(i => new AsedioCard(namesAsedio(i), 1))
+  val namesCuerpoACuerpo: List[String] = List("Adjetivo", "Coliforme", "Fierro malo", "Cortachurro", "Choapino", "Rata", "Cucky", "Neumatico", "Chamullo")
+  val cardsCuerpoACuerpo: List[CuerpoACuerpoCard] = List.tabulate(namesCuerpoACuerpo.length)(i => new CuerpoACuerpoCard(namesCuerpoACuerpo(i), 1))
+  val namesWeather: List[String] = List("Pescado", "Moneda", "Lili", "Calugoso", "Pelusa", "Amigo", "Calendario")
+  val cardsWeather: List[WeatherCard] = List.tabulate(namesWeather.length)(i => new WeatherCard(namesWeather(i)))
+
+  val cardsCards: List[Card] = List.concat(cardsADistancia, cardsAsedio, cardsCuerpoACuerpo, cardsWeather)
+
   val card1: AsedioCard = new AsedioCard(namesAsedio(0), 1)
   val card2: AsedioCard = new AsedioCard(namesAsedio(0), 1)
   val card3: AsedioCard = new AsedioCard(namesAsedio(1), 2)
   test("Equal Cards"){
-    assert(carta1.equals(carta2))
-    assert(!carta1.equals(carta3))
+    assert(card1.equals(card2))
+    assert(!card1.equals(card3))
   }
-  test("A card is not a player")
-  val deck: ListBuffer[Card] = Inicializador.createDeck(namesCards, 25)
-  val hand: ListBuffer[Card] = Inicializador.createHand(deck, 10)
-  player = new Player("Juan Carlos Bodoque", 2, deck, hand, 1)
-  assert(!carta.equals(jugador1))
+  test("A card is not a player") {
+    val inicializador = new Inicializador()
+    val deck: ListBuffer[Card] = inicializador.createDeck(cardsCards, 25)
+    val hand: ListBuffer[Card] = inicializador.createHand(deck, 10)
+    val player = new Player("Juan Carlos Bodoque", 2, deck, hand, 1)
+    assert(!card1.equals(player))
+  }
 }
