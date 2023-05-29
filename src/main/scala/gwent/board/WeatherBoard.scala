@@ -2,13 +2,10 @@
 //package gwent.board
 //
 //import gwent.cards.{ADistanciaCard, AsedioCard, Card, CuerpoACuerpoCard, WeatherCard}
-//import cl.uchile.dcc.gwent.board.sections.{ADistanciaSection, AsedioSection, CuerpoACuerpoSection}
-//import cl.uchile.dcc.gwent.player.Player
 //
 //import scala.collection.mutable.ListBuffer
 //
-//class PlayerBoard(val player: Player) {
-//
+//class WeatherBoard {
 //  val namesADistancia: List[String] = List("Elemento", "Chaucha", "Yo no fui", "Neumatex", "Maletin", "Jefe", "Yo soy", "Ro", "Duquesa")
 //  val cardsADistancia: List[ADistanciaCard] = List.tabulate(namesADistancia.length)(i => new ADistanciaCard(namesADistancia(i), 1))
 //  val namesAsedio: List[String] = List("Copi copi", "Mente en blanco", "Tepo tepo", "Palmerita", "Etcetera", "Rucia", "Guason", "Chu", "James Bond")
@@ -20,8 +17,5 @@
 //
 //  val cardsCards: List[Card] = List.concat(cardsADistancia, cardsAsedio, cardsCuerpoACuerpo, cardsWeather)
 //  
-//  val sectionAsedio: ListBuffer[AsedioCard] = ListBuffer.empty[AsedioCard]
-//  val sectionADistancia: ListBuffer[ADistanciaCard] = ListBuffer.empty[ADistanciaCard]
-//  val sectionCuerpoACuerpo: ListBuffer[CuerpoACuerpoCard] = ListBuffer.empty[CuerpoACuerpoCard]
-//  
+//  val sectionWeather: ListBuffer[WeatherCard] = ListBuffer.empty[WeatherCard]
 //}
