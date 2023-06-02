@@ -6,6 +6,20 @@ import gwent.cards.Card
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
+/** A class in charge of initializing each player's deck and hand
+ *
+ * @example {{{
+ *          val inicializador = new Inicializador
+ *          val deck = inicializador.createDeck(availableCards, 10)
+ *          val hand = inicializador.createHand(deck, 3)
+ *          }}}
+ *
+ * @see Board
+ *
+ * @author Scarlett Plaza
+ * @since 1.0
+ * @version 1.0
+ */
 class Inicializador {
   def createDeck(availableCards: List[Card], quantity: Int): ListBuffer[Card]={
     val random = new Random()

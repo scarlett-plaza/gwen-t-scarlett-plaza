@@ -35,5 +35,7 @@ class aDistanciaCardTest extends FunSuite{
     val player = new Player("Juan Carlos Bodoque", 2, deck, hand, 1)
     assert(!card1.equals(player))
   }
-  
+  test("Comparar hashCode") {
+    assert(card1.hashCode.equals(card2.hashCode))
+  }
 }

@@ -101,4 +101,13 @@ class PlayerTest extends FunSuite{
     val shuffledDeck = jugador1.deck
     assert(deck.toSet == shuffledDeck.toSet)
   }
+  test("Comparar hashCode"){
+    assert(jugador1.hashCode.equals(jugador2.hashCode))
+  }
+  test("No se puede hacer la mano del jugador si requiere más cartas que las que tiene el deck"){
+    val deck3: ListBuffer[Card] = iniciador.createDeck(cardsCards, 10)
+    val hand3: ListBuffer[Card] = iniciador.createHand(deck3, 12)
+    assertEquals(hand3.length, 0)
+    assert(deck3.length == 10)
+  }
 }
