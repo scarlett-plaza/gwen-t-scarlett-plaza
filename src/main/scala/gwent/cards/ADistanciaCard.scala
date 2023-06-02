@@ -1,7 +1,17 @@
 package cl.uchile.dcc
 package gwent.cards
 
-class ADistanciaCard (name: String, power: Int) extends AbstractUnitCard (name, power){
+import gwent.board.sections.{ADistanciaSection, AsedioSection, CuerpoACuerpoSection, WeatherSection}
 
+class ADistanciaCard (name: String, power: Int) extends AbstractUnitCard (name, power){
+  def addCardToWeather(zone: WeatherSection): Unit = {???}
+
+  def addCardToAsedio(zone: AsedioSection): Unit= {???}
+
+  def addCardToCuerpoACuerpo(zone: CuerpoACuerpoSection): Unit= {???}
+
+  def addCardToADistancia(zone: ADistanciaSection): Unit = {
+    zone.section.append(this)
+  }
 }
 

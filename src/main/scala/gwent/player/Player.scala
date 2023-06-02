@@ -34,7 +34,7 @@ class Player(val name: String, var _gem: Int, var _deck: ListBuffer[Card], var _
   }
 
   def loseGem(): Unit ={
-    if (_gem<0) {
+    if (_gem<=0) {
       println("Has perdido")
     }
     else {

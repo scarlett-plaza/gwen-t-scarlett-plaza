@@ -41,9 +41,17 @@ class Board(val players: List[Player]) extends Equals {
   }
   def playUnitCard(card: AbstractUnitCard, player: Player): Unit={
     if(player.hand.contains(card)){
-      val boardOption: Option[(aDistanciaSection, asedioSection, cuerpoACuerpoSection)] = boardSection.get(player)
+      val boardOption: Option[(ADistanciaSection, AsedioSection, CuerpoACuerpoSection)] = boardSection.get(player)
       boardOption match{
-        case Some(value) =>
+        case Some((aDistanciaSection, asedioSection, cuerpoACuerpoSection)) =>
+          aDistanciaSection.addCard(card)
+          asedioSection.addCard(card)
+          cuerpoACuerpoSection.addCard(card)
+          val cardIndex = player.hand.indexWhere(_ == card)
+          if (cardIndex != -1) {
+            player.hand.remove(cardIndex)
+          }
+        case None => println(s"No esta ese jugador en el tablero")
       }
     }
   }

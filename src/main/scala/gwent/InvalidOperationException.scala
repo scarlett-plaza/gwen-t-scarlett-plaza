@@ -1,4 +1,4 @@
 package cl.uchile.dcc
-package gwent.board.exceptions
+package gwent
 
 class InvalidOperationException(message: String) extends Exception(message)
