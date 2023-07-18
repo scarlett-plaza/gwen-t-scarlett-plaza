@@ -2,6 +2,12 @@ package cl.uchile.dcc
 package gwent.cards
 
 import gwent.board.sections.{ADistanciaSection, AsedioSection, CuerpoACuerpoSection, WeatherSection}
+
+import cl.uchile.dcc.gwent.board.Board
+import cl.uchile.dcc.gwent.habilidad.AplicaHabilidad
+import cl.uchile.dcc.gwent.player.Player
+
+import java.lang.annotation.Target
 /** A class representing the aDistancia cards in the game GWENT.
  *
  * @param name String of the name of the card
@@ -19,15 +25,15 @@ import gwent.board.sections.{ADistanciaSection, AsedioSection, CuerpoACuerpoSect
  * @since 1.5
  * @version 2.0
  */
-class ADistanciaCard (name: String, power: Int) extends AbstractUnitCard (name, power){
-  def addCardToWeather(zone: WeatherSection): Unit = {val hola: Int = 0}
-
-  def addCardToAsedio(zone: AsedioSection): Unit= {val hola: Int = 0}
-
-  def addCardToCuerpoACuerpo(zone: CuerpoACuerpoSection): Unit= {val hola: Int = 0}
-
-  def addCardToADistancia(zone: ADistanciaSection): Unit = {
-    zone.section.append(this)
+class ADistanciaCard (name: String, power: Int, habilidad: List[AplicaHabilidad]) extends AbstractUnitCard (name, power, habilidad){
+  override def addToSection(player: Player, board: Board): Unit = {
+    board.addToADistanciaSection(this, player)
+  }
+  def aplicaHabilidad(index:Int, target: Card): Unit = {
+    if (index>=0 && index<habilidad.length){
+      val habilidades = habilidad(index)
+      habilidades(this.asInstanceOf[Card], target)
+    }
   }
 }
 

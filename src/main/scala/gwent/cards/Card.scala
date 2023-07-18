@@ -3,11 +3,12 @@ package gwent.cards
 
 import gwent.board.sections.{ADistanciaSection, AsedioSection, CuerpoACuerpoSection, WeatherSection}
 
+import cl.uchile.dcc.gwent.board.Board
+import cl.uchile.dcc.gwent.habilidad.AplicaHabilidad
+import cl.uchile.dcc.gwent.player.Player
+
 trait Card {
-  var hola:Int
   val name: String
-  def addCardToWeather(zone: WeatherSection): Unit
-  def addCardToAsedio(zone: AsedioSection): Unit
-  def addCardToCuerpoACuerpo(zone: CuerpoACuerpoSection): Unit
-  def addCardToADistancia(zone: ADistanciaSection): Unit
+  val habilidad: List[AplicaHabilidad]
+  def addToSection(player: Player, board: Board): Unit
 }

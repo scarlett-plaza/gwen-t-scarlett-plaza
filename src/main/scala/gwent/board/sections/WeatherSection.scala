@@ -23,7 +23,8 @@ import scala.collection.mutable.ListBuffer
  * @since 1.0
  * @version 1.0
  */
-class WeatherSection(override val section: ListBuffer[WeatherCard]) extends Section with Equals {
+class WeatherSection(override val _section: ListBuffer[WeatherCard]) extends Section with Equals {
+  def section: ListBuffer[WeatherCard] = _section
   override def canEqual(that: Any): Boolean = {
     that.isInstanceOf[WeatherSection]
   }
@@ -38,9 +39,6 @@ class WeatherSection(override val section: ListBuffer[WeatherCard]) extends Sect
     }
   }
   override def hashCode(): Int = {
-    Objects.hash(section)
-  }
-  override def addCard(that: Card): Unit = {
-    that.addCardToWeather(this)
+    Objects.hash(_section)
   }
 }

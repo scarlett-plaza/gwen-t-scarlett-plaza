@@ -24,7 +24,8 @@ import scala.collection.mutable.ListBuffer
  * @since 1.0
  * @version 1.0
  */
-class CuerpoACuerpoSection(override val section: ListBuffer[CuerpoACuerpoCard]) extends Section with Equals {
+class CuerpoACuerpoSection(override val _section: ListBuffer[CuerpoACuerpoCard]) extends Section with Equals {
+  def section: ListBuffer[CuerpoACuerpoCard] = _section
   override def canEqual(that: Any): Boolean = {
     that.isInstanceOf[CuerpoACuerpoSection]
   }
@@ -39,11 +40,8 @@ class CuerpoACuerpoSection(override val section: ListBuffer[CuerpoACuerpoCard]) 
       false
     }
   }
-
+  
   override def hashCode(): Int = {
-    Objects.hash(section)
-  }
-  override def addCard(that: Card): Unit= {
-    that.addCardToCuerpoACuerpo(this)
+    Objects.hash(_section)
   }
 }

@@ -2,30 +2,50 @@ package cl.uchile.dcc
 package gwent.board
 
 import cl.uchile.dcc.gwent.cards.{ADistanciaCard, AsedioCard, Card, CuerpoACuerpoCard, WeatherCard}
+import cl.uchile.dcc.gwent.habilidad.{AplicaHabilidad, ClimaDespejado, EscarchaMordiente, LluviaTorrencial, NieblaImpenetrable, NullHabilidad, RefuerzoMoralADistancia, RefuerzoMoralAsedio, RefuerzoMoralCuerpoACuerpo, VinculoEstrechoADistancia, VinculoEstrechoAsedio, VinculoEstrechoCuerpoACuerpo}
 import cl.uchile.dcc.gwent.player.Player
 import munit.FunSuite
 
 import scala.collection.mutable.ListBuffer
+import scala.util.Random
 
 class boardTest extends FunSuite{
+  val refMorADistancia = new AplicaHabilidad("refuerzo moral ADistancia", new RefuerzoMoralADistancia(1))
+  val VinEstADistancia = new AplicaHabilidad("Vinculo estrecho ADistancia", new VinculoEstrechoADistancia())
+  val NullADistancia = new AplicaHabilidad("refuerzo moral ADistancia", new NullHabilidad())
+  val ataquesADistancia: List[AplicaHabilidad] = List(refMorADistancia, VinEstADistancia, NullADistancia)
+
+  val refMorAsedio = new AplicaHabilidad("refuerzo moral asedio", new RefuerzoMoralAsedio(1))
+  val VinEstAsedio = new AplicaHabilidad("Vinculo estrecho asedio", new VinculoEstrechoAsedio())
+  val NullAsedio = new AplicaHabilidad("refuerzo moral asedio", new NullHabilidad())
+  val ataquesAsedio: List[AplicaHabilidad] = List(refMorAsedio, VinEstAsedio, NullAsedio)
+
+  val refMorCuerpoACuerpo = new AplicaHabilidad("refuerzo moral CuerpoACuerpo", new RefuerzoMoralCuerpoACuerpo(1))
+  val VinEstCuerpoACuerpo = new AplicaHabilidad("Vinculo estrecho CuerpoACuerpo", new VinculoEstrechoCuerpoACuerpo())
+  val NullCuerpoACuerpo = new AplicaHabilidad("refuerzo moral CuerpoACuerpo", new NullHabilidad())
+  val ataquesCuerpoACuerpo: List[AplicaHabilidad] = List(refMorCuerpoACuerpo, VinEstCuerpoACuerpo, NullCuerpoACuerpo)
+
+  val lluviaTorrencial = new AplicaHabilidad("lluviaTorrencial", new LluviaTorrencial())
+  val nieblaImpenetrable = new AplicaHabilidad("nieblaImpenetrable", new NieblaImpenetrable())
+  val escarchaMordiente = new AplicaHabilidad("escarchaMordiente", new EscarchaMordiente())
+  val climaDespejado = new AplicaHabilidad("climaDespejado", new ClimaDespejado())
+  val ataquesWeather: List[AplicaHabilidad] = List(lluviaTorrencial, nieblaImpenetrable, escarchaMordiente, climaDespejado)
 
   val namesADistancia: List[String] = List("Elemento", "Chaucha", "Yo no fui", "Neumatex", "Maletin", "Jefe", "Yo soy", "Ro", "Duquesa")
-  val cardsADistancia: List[ADistanciaCard] = List.tabulate(namesADistancia.length)(i => new ADistanciaCard(namesADistancia(i), 1))
+  val random = new Random()
+  val cardsADistancia: List[ADistanciaCard] = List.tabulate(namesADistancia.length)(i => new ADistanciaCard(namesADistancia(i), 1, List(ataquesADistancia(i%3))))
   val namesAsedio: List[String] = List("Copi copi", "Mente en blanco", "Tepo tepo", "Palmerita", "Etcetera", "Rucia", "Guason", "Chu", "James Bond")
-  val cardsAsedio: List[AsedioCard] = List.tabulate(namesAsedio.length)(i => new AsedioCard(namesAsedio(i), 1))
+  val cardsAsedio: List[AsedioCard] = List.tabulate(namesAsedio.length)(i => new AsedioCard(namesAsedio(i), 1, List(ataquesAsedio(i%3))))
   val namesCuerpoACuerpo: List[String] = List("Adjetivo", "Coliforme", "Fierro malo", "Cortachurro", "Choapino", "Rata", "Cucky", "Neumatico", "Chamullo")
-  val cardsCuerpoACuerpo: List[CuerpoACuerpoCard] = List.tabulate(namesCuerpoACuerpo.length)(i => new CuerpoACuerpoCard(namesCuerpoACuerpo(i), 1))
+  val cardsCuerpoACuerpo: List[CuerpoACuerpoCard] = List.tabulate(namesCuerpoACuerpo.length)(i => new CuerpoACuerpoCard(namesCuerpoACuerpo(i), 1, List(ataquesCuerpoACuerpo(i%3))))
   val namesWeather: List[String] = List("Pescado", "Moneda", "Lili", "Calugoso", "Pelusa", "Amigo", "Calendario")
-  val cardsWeather: List[WeatherCard] = List.tabulate(namesWeather.length)(i => new WeatherCard(namesWeather(i)))
+  val cardsWeather: List[WeatherCard] = List.tabulate(namesWeather.length)(i => new WeatherCard(namesWeather(i), List(ataquesWeather(i%4)) ))
 
   val cardsCards: List[Card] = List.concat(cardsADistancia, cardsAsedio, cardsCuerpoACuerpo, cardsWeather)
 
   val nombre1 = "Juan Carlos Bodoque"
-  val section1 = 1
   val nombre2 = "Juanin Juan Harry"
-  val section2 = 2
   val nombre3 = "Mario Hugo"
-  val section3 = 3
   val deckQuantity = 25
   val handQuantity = 10
 
@@ -46,13 +66,13 @@ class boardTest extends FunSuite{
   val deckWeather: ListBuffer[Card] = iniciador.createDeck(cardsWeather, deckQuantity)
   val handWeather: ListBuffer[Card] = iniciador.createHand(deckWeather, handQuantity)
 
-  val jugador1 = new Player(nombre1, 2, deck1, hand1, section1)
-  val jugador2 = new Player(nombre2, 2, deck2, hand2, section2)
-  val jugador3 = new Player(nombre3, 2, deck3, hand3, section3)
-  val jugadorADistancia = new Player(nombre1, 2, deckADistancia, handADistancia, section1)
-  val jugadorAsedio = new Player(nombre2, 2, deckAsedio, handAsedio, section2)
-  val jugadorCuerpoACuerpo = new Player(nombre3, 2, deckCuerpoACuerpo, handCuerpoACuerpo, section3)
-  val jugadorWeather = new Player(nombre1, 2, deckWeather, handWeather, section1)
+  val jugador1 = new Player(nombre1, 2, deck1, hand1)
+  val jugador2 = new Player(nombre2, 2, deck2, hand2)
+  val jugador3 = new Player(nombre3, 2, deck3, hand3)
+  val jugadorADistancia = new Player(nombre1, 2, deckADistancia, handADistancia)
+  val jugadorAsedio = new Player(nombre2, 2, deckAsedio, handAsedio)
+  val jugadorCuerpoACuerpo = new Player(nombre3, 2, deckCuerpoACuerpo, handCuerpoACuerpo)
+  val jugadorWeather = new Player(nombre1, 2, deckWeather, handWeather)
 
   val board1 = new Board(List(jugador1, jugador2, jugador3))
   val board2 = new Board(List(jugador1, jugador2, jugador3))
@@ -72,6 +92,27 @@ class boardTest extends FunSuite{
     assert(board1.hashCode() != board3.hashCode())
     assert(board1.hashCode() != board4.hashCode())
   }
+
+  test("un tablero no es una carta, o jugador"){
+    assert(!board1.equals(hand1.head))
+    val jugadorADistanciaHandHead = jugadorADistancia.hand.head
+    val jugadorAsedioHandHead = jugadorAsedio.hand.head
+    val jugadorCuerpoACuerpoHandHead = jugadorCuerpoACuerpo.hand.head
+    val jugadorWeatherHandHead = jugadorWeather.hand.head
+    boardSeparados.playCard(jugadorADistanciaHandHead, jugadorADistancia)
+    boardSeparados.playCard(jugadorAsedioHandHead, jugadorAsedio)
+    boardSeparados.playCard(jugadorCuerpoACuerpoHandHead, jugadorCuerpoACuerpo)
+    boardSeparados.playCard(jugadorWeatherHandHead, jugadorWeather)
+    boardSeparados.boardSection.get(jugadorADistancia) match {
+      case Some(aDistancia, asedio, cuerpoACuerpo) =>
+        assert(!aDistancia.equals(jugadorADistanciaHandHead))
+        assert(!asedio.equals(jugadorADistanciaHandHead))
+        assert(!cuerpoACuerpo.equals(jugadorADistanciaHandHead))
+        assert(!boardSeparados.weatherSection.equals(jugadorCuerpoACuerpoHandHead))
+      case None => assert(false)
+    }
+  }
+
 
   test("Cuando agrego una carta a una sección se agrega a esa sección"){
     val jugadorADistanciaHandHead = jugadorADistancia.hand.head

@@ -1,14 +1,16 @@
 package cl.uchile.dcc
 package gwent.cards
 
+import cl.uchile.dcc.gwent.board.Board
 import cl.uchile.dcc.gwent.board.sections.{ADistanciaSection, AsedioSection, CuerpoACuerpoSection, Section, WeatherSection}
+import cl.uchile.dcc.gwent.habilidad.AplicaHabilidad
+import cl.uchile.dcc.gwent.player.Player
 
 import java.util.Objects
 
 /** A class representing the Weather cards in the game GWENT.
  *
  * @param name String of the name of the card
- * @param power Int of the power of the card
  *
  * @constructor Creates a new Weather with the given name
  *
@@ -23,8 +25,8 @@ import java.util.Objects
  * @version 2.0
  */
 
-class WeatherCard(override val name: String) extends Card with Equals {
-  var hola: Int = -1
+class WeatherCard(override val name: String, override val habilidad: List[AplicaHabilidad]) extends Card with Equals {
+  var active: Boolean = true
   override def canEqual(that: Any): Boolean = {
     that.isInstanceOf[Card]
   }
@@ -43,19 +45,14 @@ class WeatherCard(override val name: String) extends Card with Equals {
     Objects.hash(name)
   }
 
-  def addCardToADistancia(zone: ADistanciaSection): Unit = {
-    hola = 0
+  override def addToSection(player: Player, board: Board): Unit = {
+    board.addToWeatherSection(this, player)
   }
 
-  def addCardToAsedio(zone: AsedioSection): Unit = {
-    hola = 1
-  }
-
-  def addCardToCuerpoACuerpo(zone: CuerpoACuerpoSection): Unit = {
-    hola = 2
-  }
-  
-  def addCardToWeather(zone: WeatherSection): Unit = {
-    zone.section.append(this)
+  def aplicaHabilidad(index: Int, target: Card): Unit = {
+    if (index >= 0 && index < habilidad.length) {
+      val habilidades = habilidad(index)
+      habilidades(this.asInstanceOf[Card], target)
+    }
   }
 }

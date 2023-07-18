@@ -2,9 +2,11 @@ package cl.uchile.dcc
 package gwent.board.sections
 
 import gwent.cards.Card
+
+import scala.collection.mutable.ListBuffer
 /** A class representing an abstract section of the board.
  *
- * @param section Any
+ * @param _section ListBuffer[_ <: Card]
  *
  * @see Board, ADistanciaSection, AsedioSection, CuerpoACuerpoSection, WeatherSection
  *
@@ -13,6 +15,5 @@ import gwent.cards.Card
  * @version 1.0
  */
 abstract class Section {
-  val section: Any
-  def addCard(that: Card): Unit
+  val _section: ListBuffer[_ <: Card]
 }

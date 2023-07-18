@@ -3,6 +3,8 @@ package gwent.player
 
 import gwent.cards.Card
 
+import cl.uchile.dcc.gwent.observer.{AbstractSubject, LoseCondition}
+
 import java.util.Objects
 import scala.collection.mutable.ListBuffer
 
@@ -27,7 +29,7 @@ import scala.collection.mutable.ListBuffer
  * @version 2.0
  */
 
-class Player(val name: String, var _gem: Int, var _deck: ListBuffer[Card], var _hand: ListBuffer[Card],val boardSec: Int) extends Equals {
+class Player(val name: String, var _gem: Int, var _deck: ListBuffer[Card], var _hand: ListBuffer[Card]) extends AbstractSubject with Equals {
   def deck: ListBuffer[Card] = _deck
   def hand: ListBuffer[Card] = _hand
   def gem: Int = _gem
@@ -40,14 +42,13 @@ class Player(val name: String, var _gem: Int, var _deck: ListBuffer[Card], var _
     if (canEqual(obj)){
       val otherPlayer = obj.asInstanceOf[Player]
       (this eq otherPlayer)||
-        otherPlayer.name == name &&
-          otherPlayer.boardSec == boardSec
+        otherPlayer.name == name
     }
     else{false}
   }
 
   override def hashCode(): Int = {
-    Objects.hash(name, boardSec)
+    Objects.hash(name)
   }
 
   def shuffleDeck(): Unit = {
@@ -56,7 +57,7 @@ class Player(val name: String, var _gem: Int, var _deck: ListBuffer[Card], var _
 
   def loseGem(): Unit ={
     if (_gem<=0) {
-      println("Has perdido")
+      notifyObservers(new LoseCondition(_gem))
     }
     else {
       _gem-=1

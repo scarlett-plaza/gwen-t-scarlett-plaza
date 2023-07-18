@@ -2,7 +2,10 @@ package cl.uchile.dcc
 package gwent.cards
 
 
+import cl.uchile.dcc.gwent.board.Board
 import cl.uchile.dcc.gwent.board.sections.{ADistanciaSection, AsedioSection, CuerpoACuerpoSection, WeatherSection}
+import cl.uchile.dcc.gwent.habilidad.AplicaHabilidad
+import cl.uchile.dcc.gwent.player.Player
 
 import java.util.Objects
 /** An abstract class representing unit cards in the game
@@ -16,9 +19,9 @@ import java.util.Objects
  * @since 1.0
  * @version 1.0
  */
-abstract class AbstractUnitCard(val name: String, private val power: Int) extends Card with Equals {
+abstract class AbstractUnitCard(val name: String, private val power: Int, val habilidad: List[AplicaHabilidad]) extends Card with Equals {
 
-  var currentPower = power
+  var currentPower: Int = power
 
   override def canEqual(that: Any): Boolean = {
     that.isInstanceOf[AbstractUnitCard]
@@ -30,7 +33,8 @@ abstract class AbstractUnitCard(val name: String, private val power: Int) extend
       (this eq otherCard) ||
         otherCard.name == name &&
           otherCard.currentPower == currentPower &&
-          otherCard.power == power
+          otherCard.power == power &&
+          otherCard.habilidad == habilidad
     }
     else {
       false
@@ -38,15 +42,6 @@ abstract class AbstractUnitCard(val name: String, private val power: Int) extend
   }
 
   override def hashCode(): Int = {
-    Objects.hash(name, currentPower, power)
+    Objects.hash(name, power, habilidad)
   }
-
-  var hola:Int = -1
-  def addCardToWeather(ws: WeatherSection): Unit
-
-  def addCardToAsedio(ws: AsedioSection): Unit
-
-  def addCardToCuerpoACuerpo(ws: CuerpoACuerpoSection): Unit
-
-  def addCardToADistancia(ws: ADistanciaSection): Unit
 }

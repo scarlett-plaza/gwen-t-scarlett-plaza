@@ -51,13 +51,10 @@ class Board(val players: List[Player]) extends Equals {
                 aDistancia1 == aDistancia2 &&
                   asedio1 == asedio2 &&
                   cuerpoACuerpo1 == cuerpoACuerpo2
-              case None => false
             }
           }
     }
-    else {
-      false
-    }
+    else {false}
   }
 
   override def hashCode(): Int = {
@@ -65,29 +62,34 @@ class Board(val players: List[Player]) extends Equals {
   }
 
   def playCard(card: Card, player: Player): Unit={
-    card match{
-      case unitCard: AbstractUnitCard => playUnitCard(unitCard, player)
-      case weatherCard: WeatherCard => playWeatherCard(weatherCard)
-    }
+    card.addToSection(player, this)
   }
-  def playUnitCard(card: AbstractUnitCard, player: Player): Unit={
-    if(player.hand.contains(card)){
-      val boardOption: Option[(ADistanciaSection, AsedioSection, CuerpoACuerpoSection)] = boardSection.get(player)
-      boardOption match{
-        case Some((aDistanciaSection, asedioSection, cuerpoACuerpoSection)) =>
-          aDistanciaSection.addCard(card)
-          asedioSection.addCard(card)
-          cuerpoACuerpoSection.addCard(card)
-          val cardIndex = player.hand.indexWhere(_ == card)
-          if (cardIndex != -1) {
-            player.hand.remove(cardIndex)
-          }
-        case None => println(s"No esta ese jugador en el tablero")
-      }
+
+  def addToAsedioSection(card: AsedioCard, player: Player): Unit = {
+    boardSection.get(player) match {
+      case Some((_, asedioSection, _)) => asedioSection.section.append(card)
+      case None => throw new Exception("Player not found")
     }
   }
 
-  def playWeatherCard(card: WeatherCard): Unit={
-    weatherSection.addCard(card)
+  def addToADistanciaSection(card: ADistanciaCard, player: Player): Unit = {
+    boardSection.get(player) match {
+      case Some((aDistanciaSection, _, _)) => aDistanciaSection.section.append(card)
+      case None => throw new Exception("Player not found")
+    }
+  }
+
+  def addToCuerpoACuerpoSection(card: CuerpoACuerpoCard, player: Player): Unit = {
+    boardSection.get(player) match {
+      case Some((_, _, cuerpoACuerpoSection)) => cuerpoACuerpoSection.section.append(card)
+      case None => throw new Exception("Player not found")
+    }
+  }
+
+  def addToWeatherSection(card: WeatherCard, player: Player): Unit = {
+    boardSection.get(player) match {
+      case Some((_, _, _)) => weatherSection.section.append(card)
+      case None => throw new Exception("Player not found")
+    }
   }
 }
