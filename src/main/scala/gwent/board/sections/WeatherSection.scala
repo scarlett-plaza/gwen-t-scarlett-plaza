@@ -24,6 +24,10 @@ import scala.collection.mutable.ListBuffer
  * @version 1.0
  */
 class WeatherSection(override val _section: ListBuffer[WeatherCard]) extends Section with Equals {
+  /** Getter for section attribute
+   *
+   * @return ListBuffer[WeatherCard]
+   */
   def section: ListBuffer[WeatherCard] = _section
   override def canEqual(that: Any): Boolean = {
     that.isInstanceOf[WeatherSection]

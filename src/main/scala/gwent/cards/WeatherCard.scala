@@ -44,11 +44,21 @@ class WeatherCard(override val name: String, override val habilidad: List[Aplica
   override def hashCode(): Int = {
     Objects.hash(name)
   }
-
+  /**
+   * Adds the WeatherCard to the corresponding section of the player's board, works by using double dispatch
+   *
+   * @param player The player to whom the WeatherCard belongs.
+   * @param board  The game board where the WeatherCard will be added.
+   */
   override def addToSection(player: Player, board: Board): Unit = {
     board.addToWeatherSection(this, player)
   }
-
+  /**
+   * Applies the ability at the specified index to a target card works using Template pattern and Null Object pattern
+   *
+   * @param index  The index of the ability to be applied.
+   * @param target The card on which the ability will be applied.
+   */
   def aplicaHabilidad(index: Int, target: Card): Unit = {
     if (index >= 0 && index < habilidad.length) {
       val habilidades = habilidad(index)

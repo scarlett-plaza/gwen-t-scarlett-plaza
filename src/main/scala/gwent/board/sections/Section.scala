@@ -7,6 +7,7 @@ import scala.collection.mutable.ListBuffer
 /** A class representing an abstract section of the board.
  *
  * @param _section ListBuffer[_ <: Card]
+ *                  The list of cards in the section, it can be any type of cards because its used to build the specialized sections 
  *
  * @see Board, ADistanciaSection, AsedioSection, CuerpoACuerpoSection, WeatherSection
  *

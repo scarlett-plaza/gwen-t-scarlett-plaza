@@ -25,6 +25,10 @@ import scala.collection.mutable.ListBuffer
  *         
  */
 class ADistanciaSection(override val _section: ListBuffer[ADistanciaCard]) extends Section with Equals {
+  /** Getter for section attribute
+   *
+   * @return ListBuffer[ADistanciaCard]
+   */
   def section: ListBuffer[ADistanciaCard] = _section
   override def canEqual(that: Any): Boolean = {
     that.isInstanceOf[ADistanciaSection]
@@ -43,12 +47,5 @@ class ADistanciaSection(override val _section: ListBuffer[ADistanciaCard]) exten
   override def hashCode(): Int = {
     Objects.hash(_section)
   }
-  /** Adds a card to the section
-   *
-   * @param that The card to be added
-   * 
-   * @return Unit
-   */
-  
 }
   

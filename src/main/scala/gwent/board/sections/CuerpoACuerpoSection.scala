@@ -25,6 +25,10 @@ import scala.collection.mutable.ListBuffer
  * @version 1.0
  */
 class CuerpoACuerpoSection(override val _section: ListBuffer[CuerpoACuerpoCard]) extends Section with Equals {
+  /** Getter for section attribute
+   *
+   * @return ListBuffer[CuerpoACuerpoCard]
+   */
   def section: ListBuffer[CuerpoACuerpoCard] = _section
   override def canEqual(that: Any): Boolean = {
     that.isInstanceOf[CuerpoACuerpoSection]

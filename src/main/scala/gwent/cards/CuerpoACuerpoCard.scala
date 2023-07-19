@@ -24,10 +24,21 @@ import cl.uchile.dcc.gwent.player.Player
  * @version 2.0
  */
 class CuerpoACuerpoCard (name: String, power: Int, habilidad: List[AplicaHabilidad]) extends AbstractUnitCard(name, power, habilidad) {
+  /**
+   * Adds the CuerpoACuerpo to the corresponding section of the player's board, works by using double dispatch
+   *
+   * @param player The player to whom the CuerpoACuerpo belongs.
+   * @param board  The game board where the CuerpoACuerpo will be added.
+   */
   override def addToSection(player: Player, board: Board): Unit = {
     board.addToCuerpoACuerpoSection(this, player)
   }
-
+  /**
+   * Applies the ability at the specified index to a target card works using Template pattern and Null Object pattern
+   *
+   * @param index  The index of the ability to be applied.
+   * @param target The card on which the ability will be applied.
+   */
   def aplicaHabilidad(index: Int, target: Card): Unit = {
     if (index >= 0 && index < habilidad.length) {
       val habilidades = habilidad(index)

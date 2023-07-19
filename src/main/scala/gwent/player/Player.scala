@@ -51,10 +51,16 @@ class Player(val name: String, var _gem: Int, var _deck: ListBuffer[Card], var _
     Objects.hash(name)
   }
 
+  /**
+   * Method that shuffles the deck of the player
+   */
   def shuffleDeck(): Unit = {
     _deck = scala.util.Random.shuffle(_deck)
   }
 
+  /**
+   * Method that makes the player lose a gem and gives the lose condition to the controller
+   */
   def loseGem(): Unit ={
     if (_gem<=0) {
       notifyObservers(new LoseCondition(_gem))
@@ -64,6 +70,9 @@ class Player(val name: String, var _gem: Int, var _deck: ListBuffer[Card], var _
     }
   }
 
+  /**
+   * Method that makes the player draw a card from the deck
+   */
   def drawCard(): Unit = {
     if (_deck.nonEmpty) {
       _hand += _deck.head

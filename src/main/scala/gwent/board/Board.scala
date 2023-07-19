@@ -61,9 +61,23 @@ class Board(val players: List[Player]) extends Equals {
     Objects.hash(players, boardSection, weatherSection)
   }
 
+  /** Method in charge of playing a card in the board, works using double dispatch
+   *
+   * @param card the card to be played
+   * @param player the player that will play the card
+   *
+   * @return Unit
+   */
   def playCard(card: Card, player: Player): Unit={
     card.addToSection(player, this)
   }
+
+  /** Method in charge of playing a card in the asedio section of board, works using double dispatch
+   *
+   * @param card   the card to be played
+   * @param player the player that will play the card
+   * @return Unit
+   */
 
   def addToAsedioSection(card: AsedioCard, player: Player): Unit = {
     boardSection.get(player) match {
@@ -72,6 +86,12 @@ class Board(val players: List[Player]) extends Equals {
     }
   }
 
+  /** Method in charge of playing a card in the ADistancia section of the board, works using double dispatch
+   *
+   * @param card   the card to be played
+   * @param player the player that will play the card
+   * @return Unit
+   */
   def addToADistanciaSection(card: ADistanciaCard, player: Player): Unit = {
     boardSection.get(player) match {
       case Some((aDistanciaSection, _, _)) => aDistanciaSection.section.append(card)
@@ -79,6 +99,12 @@ class Board(val players: List[Player]) extends Equals {
     }
   }
 
+  /** Method in charge of playing a card in the CuerpoACuerpo section of the board, works using double dispatch
+   *
+   * @param card   the card to be played
+   * @param player the player that will play the card
+   * @return Unit
+   */
   def addToCuerpoACuerpoSection(card: CuerpoACuerpoCard, player: Player): Unit = {
     boardSection.get(player) match {
       case Some((_, _, cuerpoACuerpoSection)) => cuerpoACuerpoSection.section.append(card)
@@ -86,6 +112,12 @@ class Board(val players: List[Player]) extends Equals {
     }
   }
 
+  /** Method in charge of playing a card in the Weather section of the board, works using double dispatch
+   *
+   * @param card   the card to be played
+   * @param player the player that will play the card
+   * @return Unit
+   */
   def addToWeatherSection(card: WeatherCard, player: Player): Unit = {
     boardSection.get(player) match {
       case Some((_, _, _)) => weatherSection.section.append(card)
